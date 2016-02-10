@@ -60,16 +60,19 @@ public class PjXmController {
                                    @RequestParam Map<String, Object> parameterMap, Model model) {
         StringBuffer hql = new StringBuffer();
         hql.append("from PjXm where (fmemo1<>'1' OR fmemo1 is null) and fonline='1' ");//1代表在线
+
         if (fstatus != null && fstatus == 1) {
-            hql.append(" and fxmstatus='在建'");
+            hql.append(" and fxmxastatus='在建'");
         } else if (fstatus != null && fstatus == 2) {
             hql.append(" and fxmstatus='完工'");
         } else if (fstatus != null && fstatus == 3) {
             hql.append(" and fxmstatus='竣工'");
         }
+
         if (parameterMap.get("filter_LIKES_fxmno") != null && parameterMap.get("filter_LIKES_fxmno").toString().trim() != "") {
             hql.append(" and fxmno like '%" + parameterMap.get("filter_LIKES_fxmno").toString().trim() + "%'");
         }
+
         parameterMap.remove("filter_LIKES_fxmno");
         if (parameterMap.get("filter_LIKES_fxmname") != null && parameterMap.get("filter_LIKES_fxmname").toString().trim() != "") {
             hql.append(" and fxmname like '%" + parameterMap.get("filter_LIKES_fxmname").toString().trim() + "%'");
@@ -193,13 +196,26 @@ public class PjXmController {
         return "gcgl/jyXmYj-info-inputforShenpi";
     }
 
+    @RequestMapping("pjXm-info-fxmname-validation")
+    public void fxmname_validation(@RequestParam(value= "projectName", required = true) String projectName,
+            HttpServletResponse response) {
+       List<PjXm> pjXmList=pjXmManager.find("select pjxm from PjXm pjxm where fxmname=?", projectName) ;
+       if(pjXmList.size()>0){
+            JsonResponseUtil.write(response,"1"); // exist the fxmname
+       }
+       else{
+           JsonResponseUtil.write(response,"0"); //not exist the fxmname
+       }
+    }
+
+
 
     @RequestMapping("pjXm-info-input")
     public String input(@RequestParam(value = "id", required = false) Long id, @RequestParam(value = "type", required = false) String type,
-                        @RequestParam(required = false, defaultValue = "1") String pageNo,
-                        @RequestParam(required = false, defaultValue = "10") String pageSize,
-                        @RequestParam(required = false, defaultValue = "DESC") String order,
-                        Model model) {
+                           @RequestParam(required = false, defaultValue = "1") String pageNo,
+                           @RequestParam(required = false, defaultValue = "10") String pageSize,
+                           @RequestParam(required = false, defaultValue = "DESC") String order,
+                           Model model) {
         if (id != null) {
             PjXm pjXm = pjXmManager.get(id);
             model.addAttribute("model", pjXm);
@@ -258,9 +274,7 @@ public class PjXmController {
                               @RequestParam Map<String, Object> parameterMap,
                               RedirectAttributes redirectAttributes) {
         PjXm dest = null;
-
         Long id = pjXm.getFid();
-
         if (id != null) {
             dest = pjXmManager.get(id);
             beanMapper.copy(pjXm, dest);
@@ -268,7 +282,6 @@ public class PjXmController {
             dest = pjXm;
             dest.setFonline("1");
         }
-
         pjXmManager.save(dest);
         PjXmMapUtil.refreshRyMap(dest);
 
@@ -390,9 +403,7 @@ public class PjXmController {
         List<PropertyFilter> propertyFilters = PropertyFilter
                 .buildFromMap(parameterMap);
         page = pjXmManager.pagedQuery(page, propertyFilters);
-
         List<PjXm> pjXms = (List<PjXm>) page.getResult();
-
         TableModel tableModel = new TableModel();
         //tableModel.setName("pjXm info");
         //tableModel.addHeaders("id", "name");
