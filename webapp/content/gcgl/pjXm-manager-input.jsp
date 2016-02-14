@@ -52,14 +52,15 @@ function Project_exist_validate() {
 	// 1获取文本框的内容
 	// Jquery的查找节点的方式,参数中#加上id属性值可以找到一个节点
 	var xmname = $("#pjXm-info_fxmname");
-	var projectname = xmname.val();
+	var projectName = xmname.val();
 	//使用jquery的XMLHTTPRequest对象get请求的封装
 	$.ajax({
 		//type:"POST",   //http请求方式
 		//url:"${scopePrefix}/gcgl/pjXm-info-fxmname-validation.do", 发送给服务器的url
 		url:"pjXm-info-fxmname-validation.do",
 		data:{
-			projectName: $('#pjXm-info_fxmname').val()
+			projectName: $('#pjXm-info_fxmname').val(),
+			online: '1'
 		}, //发送给服务器的参数
 		dataType:"json",  //告诉JQUERY返回的数据格式(注意此处数据格式一定要与提交的servlet返回的数据格式一致,不然不会调用callback)
 		async:false,
