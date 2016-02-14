@@ -20,7 +20,7 @@
 
     <link type="text/css" rel="stylesheet"
           href="${scopePrefix}/s/xthena/rypicker/rypicker.css">
- 
+
     <script type="text/javascript"
             src="${scopePrefix}/s/xthena/rypicker/rypicker.js"></script>
 

@@ -4,38 +4,82 @@
 <%pageContext.setAttribute("currentMenu", "gcgl-xmgl");%>
 <!doctype html>
 <html lang="zh">
-
-  <head>
+<head>
     <%@include file="/common/meta.jsp"%>
     <title><spring:message code="pjXm-info.pjXm-info.input.title" text="编辑"/></title>
     <%@include file="/common/s.jsp"%>
-    <script type="text/javascript"
-	src="${scopePrefix}/s/xthena/js/commlinkage.js"></script>
+ 	<script type="text/javascript"
+		src="${scopePrefix}/s/xthena/js/commlinkage.js"></script>
 	<link type="text/css" rel="stylesheet"
-	href="${scopePrefix}/s/xthena/rypicker/rypicker.css">
-<script type="text/javascript"
-	src="${scopePrefix}/s/xthena/rypicker/rypicker.js"></script>
-    <script type="text/javascript">
-    
-    //定义省市字段name
+			href="${scopePrefix}/s/xthena/rypicker/rypicker.css">
+  	<script type="text/javascript"
+			src="${scopePrefix}/s/xthena/rypicker/rypicker.js"></script>
+	<link type="text/css" rel="stylesheet"
+		href="${scopePrefix}/s/xthena/xmpicker/xmpicker.css">
+  	<script type="text/javascript"
+		src="${scopePrefix}/s/xthena/xmpicker/xmpicker.js"></script>
+
+<script type="text/javascript">
+//定义省市字段name
     var fprovince="fprovince";
     var fcity="fcity";
-$(function() {
-    $("#pjXm-infoForm").validate({
-        submitHandler: function(form) {
-			bootbox.animate(false);
-			var box = bootbox.dialog('<div class="progress progress-striped active" style="margin:0px;"><div class="bar" style="width: 100%;"></div></div>');
-            form.submit();
-        },
-        errorClass: 'validate-error'
+		$(function() {
+			$("#pjXm-infoForm").validate({
+				submitHandler: function(form) {
+					bootbox.animate(false);
+					var box = bootbox.dialog('<div class="progress progress-striped active" style="margin:0px;"><div class="bar" style="width: 100%;"></div></div>');
+					form.submit();
+				},
+				errorClass: 'validate-error'
     });
     createryPicker({
 		modalId : 'ryPicker',
 		url : '${scopePrefix}/hr/commRy-simple-list.do'
 	});
-})
-    </script>
-  </head>
+
+	createxmPicker({
+		modalId: 'xmPicker',
+		url: '${scopePrefix}/gcgl/pjXm-simple-list.do'
+	});
+	$("#pjXm-info_fxmname").blur(function(){
+		Project_exist_validate();
+	});
+
+});
+
+//验证输入的工程名称是否已经存在于数据库
+function Project_exist_validate() {
+	// 1获取文本框的内容
+	// Jquery的查找节点的方式,参数中#加上id属性值可以找到一个节点
+	var xmname = $("#pjXm-info_fxmname");
+	var projectname = xmname.val();
+	//使用jquery的XMLHTTPRequest对象get请求的封装
+	$.ajax({
+		//type:"POST",   //http请求方式
+		//url:"${scopePrefix}/gcgl/pjXm-info-fxmname-validation.do", 发送给服务器的url
+		url:"pjXm-info-fxmname-validation.do",
+		data:{
+			projectName: $('#pjXm-info_fxmname').val()
+		}, //发送给服务器的参数
+		dataType:"json",  //告诉JQUERY返回的数据格式(注意此处数据格式一定要与提交的servlet返回的数据格式一致,不然不会调用callback)
+		async:false,
+		success:function(data) {
+			if (data==1){
+				alert("项目已存在于在建项目中，不可重复录入，请确认后输入！")
+				$('#pjXm-info_fxmname').val("").focus()
+			}
+			else{
+
+			}
+		},//定义交互完成,并且服务器正确返回数据时调用回调函数
+		error: function(data){
+			alert("error!")
+		}
+
+	});
+}
+	</script>
+</head>
 
   <body>
     <%@include file="/header.jsp"%>
@@ -55,16 +99,16 @@ $(function() {
 
 <form id="pjXm-infoForm" method="post" action="pjXm-manager-save.do" class="form-horizontal">
  <c:if test="${model != null}">
-							<input id="pjXm-info_id" type="hidden" name="fid"
+	 					<input id="pjXm-info_id" type="hidden" name="fid"
 								value="${model.fid}">
 						</c:if>
-
 
 						<div class="control-group">
 							<div class="span5">
 								<label class="control-label" for="pjXm-info_fxmname"><spring:message
 										code="pjXm-info.pjXm-info.input.fxmname" text="项目名称" /></label>
 								<div class="controls">
+
 									<input id="pjXm-info_fxmname" type="text" name="fxmname"
 										value="${model.fxmname}" size="" class="text " minlength=""
 										maxlength="">
@@ -214,15 +258,15 @@ $(function() {
 
 						<div class="control-group">
 							<div class="span5">
-								<label class="control-label" for="pjXm-info_fxmzongjianid"><spring:message
-										code="pjXm-info.pjXm-info.input.fxmzongjianid" text="项目总监" /></label>
+								<label class="control-label" for="pjXm-info_fxmzongjianid">
+								<spring:message code="pjXm-info.pjXm-info.input.fxmzongjianid" text="项目总监" /> </label>
 								<div class="controls">
 								<div class="input-append ryPicker">
 									<input id="pjXm-info_fxmzongjianid" type="hidden" name="fxmzongjianid"
 										value="${model.fxmzongjianid}">
-										 <input id="ryBxRecord-info_userName" type="text" value="${ryMap[model.fxmzongjianid].fname}"
+									<input id="ryBxRecord-info_userName" type="text" value="${ryMap[model.fxmzongjianid].fname}"
 										disabled class=" required" style="width: 175px;" value="">
-										<span class="add-on"
+									<span class="add-on"
 										style="padding-top: 2px; padding-bottom: 2px;"><i
 										class="icon-user"></i></span>
 								</div>
