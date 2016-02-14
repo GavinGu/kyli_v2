@@ -198,14 +198,28 @@ public class PjXmController {
 
     @RequestMapping("pjXm-info-fxmname-validation")
     public void fxmname_validation(@RequestParam(value= "projectName", required = true) String projectName,
-            HttpServletResponse response) {
-       List<PjXm> pjXmList=pjXmManager.find("select pjxm from PjXm pjxm where fxmname=?", projectName) ;
-       if(pjXmList.size()>0){
-            JsonResponseUtil.write(response,"1"); // exist the fxmname
-       }
-       else{
-           JsonResponseUtil.write(response,"0"); //not exist the fxmname
-       }
+                                   @RequestParam(value="online", required = true) String online, HttpServletResponse
+                                               response) {
+        if (online.equals("0")){
+            List<PjXm> pjXmList=pjXmManager.find("select pjxm from PjXm pjxm where fxmname=?",projectName) ;
+            if(pjXmList.size()>0){
+                JsonResponseUtil.write(response,"1"); // exist the fxmname
+            }
+            else{
+                JsonResponseUtil.write(response,"0"); //not exist the fxmname
+            }
+        }
+
+        else if (online.equals("1")){
+            List<PjXm> pjXmList=pjXmManager.find("select pjxm from PjXm pjxm where fxmname=? and fonline=?",
+                    projectName, online) ;
+            if(pjXmList.size()>0){
+                JsonResponseUtil.write(response,"1"); // exist the fxmname
+            }
+            else{
+                JsonResponseUtil.write(response,"0"); //not exist the fxmname
+            }
+        }
     }
 
 
@@ -387,9 +401,7 @@ public class PjXmController {
                                 @RequestParam(required = false, defaultValue = "ASC") String order,
                                 RedirectAttributes redirectAttributes) {
         List<PjXm> pjXms = pjXmManager.findByIds(selectedItem);
-
         pjXmManager.removeAll(pjXms);
-
         messageHelper.addFlashMessage(redirectAttributes,
                 "core.success.delete", "删除成功");
 
