@@ -29,6 +29,7 @@ import com.xthena.jl.manager.JlfRecordManager;
 import com.xthena.jl.manager.PjXmJdManager;
 import com.xthena.sckf.domain.CommHt;
 import com.xthena.sckf.manager.CommHtManager;
+import com.xthena.util.JsonResponseUtil;
 import com.xthena.util.SessionUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +100,19 @@ public class JlfRecordController {
         return "jl/jlfRecord-info-input";
     }
 
+    @RequestMapping("jlfRecord-feeformat-validation")
+    public void fxmname_validation(@RequestParam(value= "Jlfee", required = true) String Jlfee,
+                                   HttpServletResponse response) {
+        try {
+             double FeeValue=Double.parseDouble(Jlfee.trim());
+        }
+        catch (Exception ex)
+        {
+            JsonResponseUtil.write(response, "1");
+            return;
+        }
+        JsonResponseUtil.write(response,"0");
+    }
 
     @RequestMapping("jlfRecord-info-save")
     public String save(@ModelAttribute JlfRecord jlfRecord,
