@@ -14,9 +14,8 @@
 		code="jlfRecord-info.jlfRecord-info.input.title" text="编辑" /></title>
 <%@include file="/common/s.jsp"%>
 <script type="text/javascript">
-	$(
-			function() {
-				$("#jlfRecord-infoForm")
+	$(function() {
+		$("#jlfRecord-infoForm")
 						.validate(
 								{
 									submitHandler : function(form) {
@@ -27,7 +26,45 @@
 									},
 									errorClass : 'validate-error'
 								});
-			})
+
+		$("#jlfRecord-info_fhtjlf").blur(function(){
+			Fee_format_validation();
+		});
+
+	});
+
+
+	//验证输入的工程名称是否已经存在于数据库
+	function Fee_format_validation() {
+		// 1获取文本框的内容
+		// Jquery的查找节点的方式,参数中#加上id属性值可以找到一个节点
+
+		//使用jquery的XMLHTTPRequest对象get请求的封装
+		$.ajax({
+			//typ
+			// e:"POST",   //http请求方式
+			//url:"${scopePrefix}/gcgl/pjXm-info-fxmname-validation.do", 发送给服务器的url
+			url:"jlfRecord-feeformat-validation.do",
+			data:{
+				Jlfee: $('#jlfRecord-info_fhtjlf').val()
+			}, //发送给服务器的参数
+			dataType:"json",  //告诉JQUERY返回的数据格式(注意此处数据格式一定要与提交的servlet返回的数据格式一致,不然不会调用callback)
+			async:false,
+			success:function(data) {
+				if (data==1){
+					alert("监理费输入格式有误，请输入纯数字！")
+					$('#jlfRecord-info_fhtjlf').val("").focus()
+				}
+				else if(data==0){
+					$('#jlfRecord-info_fhtjlf').val().trim()
+				}
+			},//定义交互完成,并且服务器正确返回数据时调用回调函数
+			error: function(data){
+				alert("error!")
+			}
+
+		});
+	}
 </script>
 </head>
 <body>
@@ -55,7 +92,7 @@
 								<div class="span5">
 									<label class="control-label" for="jlfRecord-info_fhtjlf"><spring:message
 											code="jlfRecord-info.jlfRecord-info.input.fhtjlf"
-											text="监理费" /></label>
+											text="监理费(单位：元)" /></label>
 									<div class="controls">
 										<input id="jlfRecord-info_fhtjlf" type="text" name="fhtjlf"
 											value="${model.fhtjlf}" size="" class="text " minlength=""
