@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.xthena.api.user.UserDTO;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.delegate.DelegateExecution;
@@ -46,8 +47,14 @@ public class XhfCommonPlainManager extends HibernateEntityDao<XhfCommonPlain> im
 	public Page pagedQuery(Page  page,List<PropertyFilter> propertyFilters ){
 		Page page1=super.pagedQuery(page, propertyFilters);
 		List<XhfCommonPlain> xhfCommonPlains= (List<XhfCommonPlain>) page1.getResult();
-		for(XhfCommonPlain xhfCommonPlain:xhfCommonPlains){
-			xhfCommonPlain.setFmemo5(userConnector.findById(String.valueOf(xhfCommonPlain.getFuserid())).getDisplayName());
+		for(XhfCommonPlain xhfCommonPlain:xhfCommonPlains) {
+			try {
+				xhfCommonPlain.setFmemo5(userConnector.findById(String.valueOf(xhfCommonPlain.getFuserid())).getDisplayName());
+			}
+			catch (Exception ex)
+			{
+				xhfCommonPlain.setFmemo5("");
+			}
 		}
 		page1.setResult(xhfCommonPlains);
 		return page1;
