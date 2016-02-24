@@ -24,7 +24,7 @@
 		orderBy : '${page.orderBy == null ? "" : page.orderBy}',
 		asc : ${page.asc},
 		params : {
-			'filter_LIKES_fthname' : '${param.filter_LIKES_fhtname}'
+			'filter_LIKES_fhtname' : '${param.filter_LIKES_fhtname}'
 		},
 		selectedItemClass : 'selectedItem',
 		gridFormId : 'commHt-infoGridForm',
@@ -118,7 +118,7 @@
 									<!--   	<th class="sorting" name="fscale">工程规模</th>
         	<th class="sorting" name="fprojecttype">工程类别</th> -->
 									<th class="sorting" name="fhetongno">合同编号</th>
-									<th class="sorting" name="fxmid">合同名称</th>
+									<th class="sorting" name="fhtname">合同名称</th>
 									<th class="sorting" name="fadrr">工程地点</th>
 									<th class="sorting" name="fjiafang">业主名称</th>
 									<th class="sorting" name="ftotalMoney">工程总投资</th>
