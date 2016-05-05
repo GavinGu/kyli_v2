@@ -1,33 +1,26 @@
 package com.xthena.hr.domain;
 // default package
 
+import javax.persistence.*;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-
 import static javax.persistence.GenerationType.IDENTITY;
-
-import javax.persistence.Id;
-import javax.persistence.SecondaryTable;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 
 /**
  * CommRy entity. @author MyEclipse Persistence Tools
  */
 @Entity
-//@Table(name="v_commry_order_name" ,catalog="xhf")
+@Table(name="v_commry_order_name" ,catalog="xhf")
 //@SecondaryTable(name="v_commry_order_name")
-@Table(name="t_common_ry",catalog="xhf")
+//@Table(name="t_common_ry"
+//    ,catalog="xhf"
+//)
 
-public class CommRy  implements java.io.Serializable {
+public class CommRyV implements java.io.Serializable {
 
 
-    // Fields    
+    // Fields
 
      private Long fid;
      private Long userid;
@@ -71,12 +64,12 @@ public class CommRy  implements java.io.Serializable {
     // Constructors
 
     /** default constructor */
-    public CommRy() {
+    public CommRyV() {
     }
 
-    
+
     /** full constructor */
-    public CommRy(Long userid, String fcardno, Integer fsex, Date fbirdate, String fidno, Integer fismarry, Integer fischildren, String faddress, String fbiraddress, String fname, String ftel, String femail, String fbankcode, String fbank, Date frzdate, String fminzu, Integer fzzmm, Date fjobdate, String fxueli, String fxueli2, Date fbydate, String fzhuanye, String flastjob, String fobjyear, Long fjobid, String fbyyx, String fpicurl, String fcontact, String fcontguanxi, String fconttel, String fjbgz, String fgyxz, String fprovince, String fcity, Date flzdate, String ffzwz) {
+    public CommRyV(Long userid, String fcardno, Integer fsex, Date fbirdate, String fidno, Integer fismarry, Integer fischildren, String faddress, String fbiraddress, String fname, String ftel, String femail, String fbankcode, String fbank, Date frzdate, String fminzu, Integer fzzmm, Date fjobdate, String fxueli, String fxueli2, Date fbydate, String fzhuanye, String flastjob, String fobjyear, Long fjobid, String fbyyx, String fpicurl, String fcontact, String fcontguanxi, String fconttel, String fjbgz, String fgyxz, String fprovince, String fcity, Date flzdate, String ffzwz) {
         this.userid = userid;
         this.fcardno = fcardno;
         this.fsex = fsex;
