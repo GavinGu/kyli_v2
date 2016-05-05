@@ -172,6 +172,7 @@
                             <th class="sorting" name="fspstatus">离职审批状态</th>
                             <th class="sorting" name="fsbstatus">停保状态</th>
                             <th class="sorting" name="fywstatus">意外险停办状态</th>
+                            <th class="sorting" name="fysxx">原始信息</th>
                             <th width="80">&nbsp;</th>
                         </tr>
                         </thead>
@@ -193,9 +194,14 @@
                                 <td><c:if test="${item.fywstatus=='0'}">未停险</c:if><c:if
                                         test="${item.fywstatus=='1'}">已停险</c:if></td>
                                 <td>
+                                <a href="commRy-info-input.do?id=${item.fry}" class="a-update"><spring:message
+                                        code="core.list.edit" text="个人信息"/></a>
+                                </td>
+                                <td>
                                     <a href="hrLz-info-input.do?id=${item.fid}" class="a-update"><spring:message
                                             code="core.list.edit" text="编辑"/></a>
                                 </td>
+
                             </tr>
                         </c:forEach>
                         </tbody>
