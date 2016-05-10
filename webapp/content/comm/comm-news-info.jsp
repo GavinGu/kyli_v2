@@ -8,7 +8,6 @@
     <title><spring:message code="jlFujian-info.jlFujian-info.input.title" text="${model.fname}"/></title>
     <%@include file="/common/s.jsp"%>
     <script type="text/javascript" src="${ctx}/s/xthena/js/jquery.PrintArea.js"></script>
-    
         <script type="text/javascript">
 			$(function() {
 			    $("#plain-infoForm").validate({
@@ -24,7 +23,6 @@
 				editor.config.filebrowserImageUploadUrl = "${scopePrefix}/comm/editor-article-uploadImage.do";
 			
 			})
-			
 
 		function printDiv() {
 			$("div#contentDiv").printArea();
@@ -34,13 +32,31 @@
     
   </head>
   <body>
+
     <div class="row-fluid">
 	  <!-- start of main -->
       <section id="m-main" class="span10">
-     	 <input type="button" value="打印" onclick="printDiv()">
-      	<div id="contentDiv" style="margin-top: 50px;">
-			${model.fnewcontent}
+		<input type="button" value="打印" onclick="printDiv()">
+
+		  <div id="contentDiv" style="color:#00F"; align="center";>
+			  <font size="3">
+			  		${model.fname}
+			  </font>
+		  </div>
+
+		  <div id="contentDiv" style="margin-top: 5px"; align="center";>
+			  <font size="2">
+				  发布时间： ${model.fcreatedate}
+			  </font>
+		  </div>
+		<div style="border: 1px dashed #CCCCCC; margin:10px auto; padding: 10px; background-color: #f7f7f7; width: 94%"
+		  	${model.fnewcontent}
+
 		</div>
+		  <div id="contentDiv" style="margin-top: 5px;" align="left">
+			  <a href=" ${model.furl}">相关链接</a>
+		  </div>
+
       </section>
 	</div>
 
