@@ -53,7 +53,7 @@
 		  	${model.fnewcontent}
 
 		</div>
-		  <div id="contentDiv" style="margin-top: 5px;" align="left">
+		  <div id="contentDiv" style="margin-top: 4px;" align="left">
 			  <a href=" ${model.furl}">相关链接</a>
 		  </div>
 
