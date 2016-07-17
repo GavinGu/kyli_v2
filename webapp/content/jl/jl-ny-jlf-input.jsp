@@ -90,9 +90,9 @@
 					<div class="control-group">
 						<div class="span5">
 							<label class="control-label" for="jlf-info_jlfsum"><spring:message
-									code="jlf-info.jlf-info.input.jlfsum" text="已收监理费" /></label>
+									code="jlf-info.jlf-info.input.jlfsum" text="已收监理费(元)" /></label>
 							<div class="controls">
-								<input id="jlf-info_jlfsum" type="text" name=""
+								<input id="jlf-info_jlfsum" type="text" name="" readonly="readonly"
 									   value="${jlfSum}" size="" class="text " maxlength=""> <a
 									href="jlfRecord-info-list.do?fxmid=${model.fxmid}"><span
 									class="add-on" style="padding-top: 2px; padding-bottom: 2px;" ><i
